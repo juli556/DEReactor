@@ -1,6 +1,6 @@
 -- modifiable variables
 local reactorSide = "back"
-local fluxgateSide = "right"
+local flowgateSide = "right"
 
 local targetStrength = 50
 local maxTemperature = 8000
@@ -22,8 +22,8 @@ local mon, monitor, monX, monY
 
 -- peripherals
 local reactor
-local fluxgate
-local inputfluxgate
+local flowgate
+local inputflowgate
 
 -- reactor information
 local ri
@@ -34,23 +34,23 @@ local emergencyCharge = false
 local emergencyTemp = false
 
 monitor = f.periphSearch("monitor")
-inputfluxgate = f.periphSearch("flow_gate")
-fluxgate = peripheral.wrap(fluxgateSide)
+inputflowgate = f.periphSearch("flow_gate")
+flowgate = peripheral.wrap(flowgateSide)
 reactor = peripheral.wrap(reactorSide)
 
 if monitor == null then
 	error("No valid monitor was found")
 end
 
-if fluxgate == null then
-	error("No valid fluxgate was found")
+if flowgate == null then
+	error("No valid flowgate was found")
 end
 
 if reactor == null then
 	error("No valid reactor was found")
 end
 
-if inputfluxgate == null then
+if inputflowgate == null then
 	error("No valid flux gate was found")
 end
 
@@ -94,7 +94,7 @@ function buttons()
     -- 2-4 = -1000, 6-9 = -10000, 10-12,8 = -100000
     -- 17-19 = +1000, 21-23 = +10000, 25-27 = +100000
     if yPos == 8 then
-      local cFlow = fluxgate.getSignalLowFlow()
+      local cFlow = flowgate.getSignalLowFlow()
       if xPos >= 2 and xPos <= 4 then
         cFlow = cFlow-1000
       elseif xPos >= 6 and xPos <= 9 then
@@ -108,7 +108,7 @@ function buttons()
       elseif xPos >= 25 and xPos <= 27 then
         cFlow = cFlow+1000
       end
-      fluxgate.setSignalLowFlow(cFlow)
+      flowgate.setSignalLowFlow(cFlow)
     end
 
     -- input gate controls
@@ -128,7 +128,7 @@ function buttons()
       elseif xPos >= 25 and xPos <= 27 then
         curInputGate = curInputGate+1000
       end
-      inputfluxgate.setSignalLowFlow(curInputGate)
+      inputflowgate.setSignalLowFlow(curInputGate)
       save_config()
     end
 
@@ -177,8 +177,8 @@ function update()
     for k, v in pairs (ri) do
       print(k.. ": ".. v)
     end
-    print("Output Gate: ", fluxgate.getSignalLowFlow())
-    print("Input Gate: ", inputfluxgate.getSignalLowFlow())
+    print("Output Gate: ", flowgate.getSignalLowFlow())
+    print("Input Gate: ", inputflowgate.getSignalLowFlow())
 
     -- monitor output
 
@@ -202,12 +202,12 @@ function update()
     if ri.temperature >= 5000 and ri.temperature <= 6500 then tempColor = colors.orange end
     f.draw_text_lr(mon, 2, 6, 1, "Temperature", f.format_int(ri.temperature) .. "C", colors.white, tempColor, colors.black)
 
-    f.draw_text_lr(mon, 2, 7, 1, "Output Gate", f.format_int(fluxgate.getSignalLowFlow()) .. " rf/t", colors.white, colors.blue, colors.black)
+    f.draw_text_lr(mon, 2, 7, 1, "Output Gate", f.format_int(flowgate.getSignalLowFlow()) .. " rf/t", colors.white, colors.blue, colors.black)
 
     -- buttons
     drawButtons(8)
 
-    f.draw_text_lr(mon, 2, 9, 1, "Input Gate", f.format_int(inputfluxgate.getSignalLowFlow()) .. " rf/t", colors.white, colors.blue, colors.black)
+    f.draw_text_lr(mon, 2, 9, 1, "Input Gate", f.format_int(inputflowgate.getSignalLowFlow()) .. " rf/t", colors.white, colors.blue, colors.black)
 
     if autoInputGate == 1 then
       f.draw_text(mon, 14, 10, "AU", colors.white, colors.gray)
@@ -258,7 +258,7 @@ function update()
     
     -- are we charging? open the floodgates
     if ri.status == "charging" then
-      inputfluxgate.setSignalLowFlow(900000)
+      inputflowgate.setSignalLowFlow(900000)
       emergencyCharge = false
     end
 
@@ -279,9 +279,9 @@ function update()
       if autoInputGate == 1 then 
         fluxval = ri.fieldDrainRate / (1 - (targetStrength/100) )
         print("Target Gate: ".. fluxval)
-        inputfluxgate.setSignalLowFlow(fluxval)
+        inputflowgate.setSignalLowFlow(fluxval)
       else
-        inputfluxgate.setSignalLowFlow(curInputGate)
+        inputflowgate.setSignalLowFlow(curInputGate)
       end
     end
 
@@ -314,4 +314,3 @@ function update()
 end
 
 parallel.waitForAny(buttons, update)
-
