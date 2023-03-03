@@ -33,7 +33,8 @@ local action = "None since reboot"
 local emergencyCharge = false
 local emergencyTemp = false
 
-monitor = f.periphSearch("monitor")
+monitor_peripheral = f.periphSearch("monitor")
+monitor = window.create(monitor_peripheral, 1, 1, monitor_peripheral.getSize()) -- create a window on the monitor
 inputfluxgate = f.periphSearch("flow_gate")
 fluxgate = peripheral.wrap(fluxgateSide)
 reactor = peripheral.wrap(reactorSide)
@@ -164,6 +165,7 @@ end
 function update()
   while true do 
 
+    monitor.setVisible(false) -- disable updating the screen.
     f.clear(mon)
 
     ri = reactor.getReactorInfo()
@@ -308,6 +310,8 @@ function update()
       action = "Temp > " .. maxTemperature
       emergencyTemp = true
     end
+
+    monitor.setVisible(true) -- draw the screen.
 
     sleep(0.1)
   end
