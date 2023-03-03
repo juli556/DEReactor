@@ -70,11 +70,12 @@ function progress_bar(mon, x, y, length, minVal, maxVal, bar_color, bg_color)
 end
 
 
-function clear(mon)
-  term.clear()
-  term.setCursorPos(1,1)
-  mon.monitor.setBackgroundColor(colors.black)
-  mon.monitor.clear()
-  mon.monitor.setCursorPos(1,1)
+local w,h=term.getSize()
+for y=1,h do
+  term.setCursorPos(1,y)
+  for x=1,w do
+        term.setBackgroundColor()
+        term.setTextColor()
+        term.write()
+  end
 end
-
