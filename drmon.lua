@@ -165,15 +165,13 @@ end
 function update()
   while true do 
 
-    monitor.setVisible(false) -- disable updating the screen.
+    while true do 
+
     f.clear(mon)
 
     ri = reactor.getReactorInfo()
-
-    -- print out all the infos from .getReactorInfo() to term
-
-    if ri == nil then
-      error("reactor has an invalid setup")
+	@@ -309,6 +311,8 @@ function update()
+      emergencyTemp = true
     end
 
     for k, v in pairs (ri) do
@@ -310,9 +308,7 @@ function update()
       action = "Temp > " .. maxTemperature
       emergencyTemp = true
     end
-
-    monitor.setVisible(true) -- draw the screen.
-
+			
     sleep(0.1)
   end
 end
