@@ -170,7 +170,6 @@ function update()
     f.clear(mon)
 
     ri = reactor.getReactorInfo()
-
       emergencyTemp = true
     end
 
