@@ -312,5 +312,3 @@ function update()
     sleep(0.1)
   end
 end
-
-sleep(0.1)
