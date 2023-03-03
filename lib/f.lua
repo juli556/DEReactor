@@ -29,6 +29,16 @@ end
 
 -- monitor related
 
+local w,h=term.getSize()
+for y=1,h do
+  term.setCursorPos(1,y)
+  for x=1,w do
+        term.setBackgroundColor()
+        term.setTextColor()
+        term.write()
+  end
+end
+
 --display text text on monitor, "mon" peripheral
 function draw_text(mon, x, y, text, text_color, bg_color)
   mon.monitor.setBackgroundColor(bg_color)
@@ -67,15 +77,4 @@ function progress_bar(mon, x, y, length, minVal, maxVal, bar_color, bg_color)
   draw_line(mon, x, y, length, bg_color) --backgoround bar
   local barSize = math.floor((minVal/maxVal) * length)
   draw_line(mon, x, y, barSize, bar_color) --progress so far
-end
-
-
-local w,h=term.getSize()
-for y=1,h do
-  term.setCursorPos(1,y)
-  for x=1,w do
-        term.setBackgroundColor()
-        term.setTextColor()
-        term.write()
-  end
 end
