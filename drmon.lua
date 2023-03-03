@@ -164,10 +164,9 @@ end
 
 function update()
   while true do 
-
-    while true do 
-
-    f.clear(mon)
+		
+    monitor.setVisible(false) -- disable updating the screen.
+    
 
     ri = reactor.getReactorInfo()
       emergencyTemp = true
@@ -307,8 +306,10 @@ function update()
       action = "Temp > " .. maxTemperature
       emergencyTemp = true
     end
-			
-    sleep(0.1)
+	
+    monitor.setVisible(true) -- draw the screen.	
+    
+	sleep(0.1)
   end
 end
 
