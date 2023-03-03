@@ -313,4 +313,4 @@ function update()
   end
 end
 
-parallel.waitForAny(buttons, update)
+sleep(0.1)
