@@ -166,8 +166,6 @@ function update()
   while true do 
 		
     monitor.setVisible(false) -- disable updating the screen.
-    
-
     ri = reactor.getReactorInfo()
       emergencyTemp = true
     end
