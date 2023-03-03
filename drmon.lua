@@ -192,8 +192,6 @@ function update()
     elseif ri.status == "charging" then
       statusColor = colors.orange
     end
-    
-    sleep(1) 	
 		
     f.draw_text_lr(mon, 2, 2, 1, "Reactor Status", string.upper(ri.status), colors.white, statusColor, colors.black)
 
