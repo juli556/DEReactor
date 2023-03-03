@@ -29,16 +29,6 @@ end
 
 -- monitor related
 
-local w,h=term.getSize()
-for y=1,h do
-  term.setCursorPos(1,y)
-  for x=1,w do
-        term.setBackgroundColor()
-        term.setTextColor()
-        term.write()
-  end
-end
-
 --display text text on monitor, "mon" peripheral
 function draw_text(mon, x, y, text, text_color, bg_color)
   mon.monitor.setBackgroundColor(bg_color)
