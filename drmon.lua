@@ -313,7 +313,7 @@ function update()
 
     monitor.setVisible(true) -- draw the screen.
 
-    sleep(0.1)
+    sleep(0)
   end
 end
 
