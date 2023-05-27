@@ -37,8 +37,8 @@ you can find a very well made youtube tutorial on how to set this up [here](http
 * a bunch of network cable
 
 ### installation
-* your reactor output flux gate must be setup so that one side of it and one of your stabilizers touches a side of the advanced computer
-* by default, flux gate should touch the right side, stabilizer should touch the back of the computer
+* your reactor output flow gate must be setup so that one side of it and one of your stabilizers touches a side of the advanced computer
+* by default, flow gate should touch the right side, stabilizer should touch the back of the computer
   * if you want to use different sides you need to modify `startup` after you have installed this and specify the sides
 * connect a modem to your input flux gate (the one connected to your reactor energy injector)
 * connect a modem to your advanced computer
@@ -66,5 +66,5 @@ you can find a very well made youtube tutorial on how to set this up [here](http
 ```
 
 ### known issues
-* there is a problem with **skyfactory 2.5** and **pastebin**, see workarounds [here](https://github.com/acidjazz/drmon/issues/9#issuecomment-277910288)
-* threre is a known issue with constant screen flickering due to the constant updates the program sends to the screen
+* Computer sometimes terminates itself when traveling outside of chunk or upon world/dimension reload
+* Switching from automatic to manual mode for the flow gates and adjusting the input gate will cause the gate to drastically drop the value and causing the reactor to turn critical, use a failsafe such as a redstone controlled input gate for a energy juggernaut in case of a catastrophic drop in field strenght 
