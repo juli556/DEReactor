@@ -4,7 +4,7 @@ local fluxgateSide = "right"
 
 local targetStrength = 50
 local maxTemperature = 8000
-local safeTemperature = 3000
+local safeTemperature = 2000
 local lowestFieldPercent = 15
 
 local activateOnCharged = 1
@@ -187,11 +187,11 @@ function update()
     local statusColor
     statusColor = colors.red
 
-    if ri.status == "online" or ri.status == "charged" then
+    if ri.status == "running" or (ri.status == "warming_up" and ri.fieldStrength >= ri.maxFieldStrength/2) then
       statusColor = colors.green
     elseif ri.status == "offline" then
       statusColor = colors.gray
-    elseif ri.status == "charging" then
+    elseif ri.status == "warming_up" then
       statusColor = colors.orange
     end
 		
@@ -259,7 +259,7 @@ function update()
     end
     
     -- are we charging? open the floodgates
-    if ri.status == "charging" then
+    if ri.status == "warming_up" then
       inputfluxgate.setSignalLowFlow(900000)
       emergencyCharge = false
     end
@@ -271,13 +271,13 @@ function update()
     end
 
     -- are we charged? lets activate
-    if ri.status == "charged" and activateOnCharged == 1 then
+    if ri.status == "warming_up" and ri.fieldStrength >= ri.maxFieldStrength/2 and activateOnCharged == 1 then
       reactor.activateReactor()
     end
 
     -- are we on? regulate the input fludgate to our target field strength
     -- or set it to our saved setting since we are on manual
-    if ri.status == "online" then
+    if ri.status == "running" then
       if autoInputGate == 1 then 
         fluxval = ri.fieldDrainRate / (1 - (targetStrength/100) )
         print("Target Gate: ".. fluxval)
@@ -297,7 +297,7 @@ function update()
     end
 
     -- field strength is too dangerous, kill and it try and charge it before it blows
-    if fieldPercent <= lowestFieldPercent and ri.status == "online" then
+    if fieldPercent <= lowestFieldPercent and ri.status == "running" then
       action = "Field Str < " ..lowestFieldPercent.."%"
       reactor.stopReactor()
       reactor.chargeReactor()
