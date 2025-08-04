@@ -77,3 +77,5 @@ function clear(mon)
   mon.monitor.clear()
   mon.monitor.setCursorPos(1,1)
 end
+
+return {periphSearch = periphSearch, format_int = format_int, draw_text = draw_text, draw_text_right = draw_text_right, draw_text_lr = draw_text_lr, draw_line = draw_line, progress_bar = progress_bar, clear = clear}
